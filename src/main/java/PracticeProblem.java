@@ -3,7 +3,7 @@ import java.util.HashMap;
 public class PracticeProblem {
 
 	public static void main(String args[]) {
-		int[] cost = new int[]{1, 100, 1, 100};
+		int[] cost = new int[]{1, 100, 1, 100, 1, 100, 1, 100, 1};
 		System.out.println(minCostClimbingStairs(cost));
 	}
 
@@ -39,7 +39,7 @@ System.out.println(map);
 public static int minCostClimbingStairs(int[] cost){
 int payed = 0;
 int index = 0;
-HashMap <Integer, Integer> map = new HashMap<Integer, Integer>();
+HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
 int upOne = stairHelper(cost, payed, index, map);
 if (cost.length>1){
 	index = 1;
@@ -51,22 +51,28 @@ upOne = Math.min(upOne, upTwo);
 return upOne;
 }
 
-public static int stairHelper(int[] cost, int payed, int index, HashMap <Integer, Integer> map){
+public static int stairHelper(int[] cost, int payed, int index, HashMap <Integer,Integer> map){
 if (index>=cost.length){
 	return payed;
 }
 
+if(map.containsKey(index)){
+	return payed + map.get(index);
+}
+int prevPaid = payed;
 payed = payed + cost[index];
 
 int upOne = stairHelper(cost, payed, index+1, map);
 int upTwo = stairHelper(cost, payed, index+2, map);
-System.out.println("up 2 ran" + upTwo);
+
 if (upOne>upTwo){
 	payed = upTwo;
 }
 else{
 	payed = upOne;
-}
+}		
+System.out.println(index + " this is index and this is " + payed);
+map.put(index, payed-prevPaid);	
 
 return payed;
 }
